@@ -22,4 +22,26 @@ describe("When playing bowling", () => {
     const score = game.score;
     expect(score).toBe(0);
   });
+
+  it("Should return 20 score if one pin is knocked down in each one of the 10 game rolls", async () => {
+    const game = new BowlingGame();
+
+    const gameRolls = [
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+      [1, 1],
+    ];
+
+    game.processGameRolls(gameRolls);
+
+    const score = game.score;
+    expect(score).toBe(20);
+  });
 });

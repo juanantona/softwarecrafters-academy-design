@@ -1,8 +1,14 @@
 class BowlingGame {
+  _score: number = 0;
+
   constructor() {}
 
   get score() {
-    return 0;
+    return this._score;
+  }
+
+  set score(score: number) {
+    this._score = score;
   }
 
   processGameRolls(gameRolls: number[][]) {
@@ -10,6 +16,8 @@ class BowlingGame {
     gameRolls.forEach(([shotOne, shotTwo]) => {
       score += shotOne + shotTwo;
     });
+
+    this._score = score;
   }
 }
 
