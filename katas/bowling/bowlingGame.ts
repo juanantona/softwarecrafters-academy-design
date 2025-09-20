@@ -25,13 +25,13 @@ class BowlingGame {
       this._score += shotOne + shotTwo;
       this._isStrike = false;
     }
-    this._score += shotOne + shotTwo;
-    this._isStrike = this.isStrike(shotOne);
+    this._isStrike = this.isStrike(shotOne, shotTwo);
     this._isSpare = this.isSpare(shotOne, shotTwo);
+    this._score += this._isStrike ? shotOne : shotOne + shotTwo;
   }
 
-  private isStrike(shotOne: number): boolean {
-    return shotOne === 10;
+  private isStrike(shotOne: number, shotTwo: number): boolean {
+    return shotOne === 10 && shotTwo === undefined;
   }
 
   private isSpare(shotOne: number, shotTwo: number): boolean {
