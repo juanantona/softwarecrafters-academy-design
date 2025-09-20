@@ -1,5 +1,6 @@
 class BowlingGame {
   _score: number = 0;
+  _isSpare: boolean = false;
 
   constructor() {}
 
@@ -7,17 +8,15 @@ class BowlingGame {
     return this._score;
   }
 
-  set score(score: number) {
-    this._score = score;
-  }
-
   processGameRolls(gameRolls: number[][]) {
-    let score = 0;
     gameRolls.forEach(([shotOne, shotTwo]) => {
-      score += shotOne + shotTwo;
+      if (this._isSpare) {
+        this._score += shotOne;
+        this._isSpare = false;
+      }
+      this._score += shotOne + shotTwo;
+      this._isSpare = shotOne + shotTwo === 10;
     });
-
-    this._score = score;
   }
 }
 

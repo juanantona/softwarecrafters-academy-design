@@ -44,4 +44,26 @@ describe("When playing bowling", () => {
     const score = game.score;
     expect(score).toBe(20);
   });
+
+  it("Should return 20 score if you get an spare and then knock down 5 pins", async () => {
+    const game = new BowlingGame();
+
+    const gameRolls = [
+      [5, 5],
+      [5, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+    ];
+
+    game.processGameRolls(gameRolls);
+
+    const score = game.score;
+    expect(score).toBe(20);
+  });
 });
