@@ -67,7 +67,7 @@ describe("When playing bowling", () => {
     expect(score).toBe(20);
   });
 
-  it.only("Should return 20 score if you get an strike and then knock down 2 + 3 pins in the following roll", async () => {
+  it("Should return 20 score if you get an strike and then knock down 2 + 3 pins in the following roll", async () => {
     const game = new BowlingGame();
 
     const gameRolls = [
@@ -87,5 +87,27 @@ describe("When playing bowling", () => {
 
     const score = game.score;
     expect(score).toBe(20);
+  });
+
+  it("Should return 300 score if you get 10 strikes plus 2 extra strikes", async () => {
+    const game = new BowlingGame();
+
+    const gameRolls = [
+      [10],
+      [10],
+      [10],
+      [10],
+      [10],
+      [10],
+      [10],
+      [10],
+      [10],
+      [10, 10, 10],
+    ];
+
+    game.processGameRolls(gameRolls);
+
+    const score = game.score;
+    expect(score).toBe(300);
   });
 });

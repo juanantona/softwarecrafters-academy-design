@@ -2,6 +2,7 @@ class BowlingGame {
   _score: number = 0;
   _isSpare: boolean = false;
   _isStrike: boolean = false;
+  _isDoubleStrike: boolean = false;
 
   constructor() {}
 
@@ -10,24 +11,44 @@ class BowlingGame {
   }
 
   processGameRolls(gameRolls: number[][]) {
-    gameRolls.forEach((gameRoll) => {
-      this.processGameRoll(gameRoll);
+    gameRolls.forEach((gameRoll, gameRollIndex) => {
+      this.processGameRoll(gameRoll, gameRollIndex);
     });
   }
 
-  private processGameRoll(gameRoll: number[]) {
-    const [shotOne, shotTwo] = gameRoll;
-    if (this._isSpare) {
-      this._score += shotOne;
+  private processGameRoll(gameRoll: number[], gameRollIndex: number) {
+    if (gameRollIndex !== 9) {
+      const [shotOne, shotTwo] = gameRoll;
+      const isCurrentStrike = this.isStrike(shotOne, shotTwo);
+      const isCurrentSpare = this.isSpare(shotOne, shotTwo);
+      if (this._isSpare) {
+        this._score += shotOne;
+        this._isSpare = false;
+      }
+      if (this._isStrike) {
+        this._score += isCurrentStrike ? shotOne : shotOne + shotTwo;
+      }
+      if (this._isDoubleStrike) {
+        this._score += isCurrentStrike ? shotOne : shotOne + shotTwo;
+      }
+      this._score += isCurrentStrike ? shotOne : shotOne + shotTwo;
+
+      this._isDoubleStrike = this._isStrike && isCurrentStrike;
+      this._isStrike = isCurrentStrike;
+      this._isSpare = isCurrentSpare;
+    } else {
+      const [shotOne, shotTwo = 0, shotThree = 0] = gameRoll;
+      if (this._isStrike) {
+        this._score += shotOne;
+      }
+      if (this._isDoubleStrike) {
+        this._score += shotOne + shotTwo;
+      }
+      this._score += shotOne + shotTwo + shotThree;
+      this._isDoubleStrike = false;
+      this._isStrike = false;
       this._isSpare = false;
     }
-    if (this._isStrike) {
-      this._score += shotOne + shotTwo;
-      this._isStrike = false;
-    }
-    this._isStrike = this.isStrike(shotOne, shotTwo);
-    this._isSpare = this.isSpare(shotOne, shotTwo);
-    this._score += this._isStrike ? shotOne : shotOne + shotTwo;
   }
 
   private isStrike(shotOne: number, shotTwo: number): boolean {
